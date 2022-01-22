@@ -67,7 +67,7 @@ function App() {
     if (mainState.userIdUpdated) {
       navigate(`/user/${mainState.userId}`);
     }
-  }, [mainState.userIdUpdated]);
+  }, [mainState.userIdUpdated, mainState.userId, navigate]);
 
   //UseEffect to post signupdetails to DB
   useEffect(() => {
@@ -76,25 +76,6 @@ function App() {
     }
   }, [mainState.signUpDetailsAvailable, mainState.userSignUpDetails]);
 
-  async function checkUserNameIsInDB(username) {
-    const Response = await fetch(`${URL}/users/${username}`, {
-      method: "GET",
-    });
-
-    const data = await Response.json();
-
-    if (data.payload === undefined) {
-      alert("Username NOT found! Try Again!");
-      return;
-    }
-    dispatch({ type: ACTIONS.ADD_USER_ID, payload: data.payload[0].user_id });
-    dispatch({ type: ACTIONS.TOGGLE_USER_ID_UPDATED });
-    getUsersToDos(data.payload[0].user_id);
-    console.log(mainState.userId);
-    navigate(`/user/${mainState.userId}`);
-
-    return;
-  }
   async function getUsersToDos(userId) {
     const Response = await fetch(`${URL}/tasks/${userId}`, {
       method: "GET",
@@ -106,49 +87,68 @@ function App() {
   }
   //UseEffect to get userDetails on login
   useEffect(() => {
+    async function checkUserNameIsInDB(username) {
+      const Response = await fetch(`${URL}/users/${username}`, {
+        method: "GET",
+      });
+
+      const data = await Response.json();
+
+      if (data.payload === undefined) {
+        alert("Username NOT found! Try Again!");
+        return;
+      }
+      dispatch({ type: ACTIONS.ADD_USER_ID, payload: data.payload[0].user_id });
+      dispatch({ type: ACTIONS.TOGGLE_USER_ID_UPDATED });
+      getUsersToDos(data.payload[0].user_id);
+      console.log(mainState.userId);
+      navigate(`/user/${mainState.userId}`);
+
+      return;
+    }
     if (mainState.login) {
       console.log(mainState.userLoginDetails);
       checkUserNameIsInDB(mainState.userLoginDetails.username);
     }
-  }, [mainState.userLoginDetails, mainState.longin]);
+  }, [mainState.userLoginDetails, mainState.login, mainState.userId, navigate]);
 
-  async function postNewToDo() {
-    const Response = await fetch(`${URL}/tasks`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        userId: mainState.userId,
-        taskText: mainState.newToDo,
-        completion: 0,
-      }),
-    });
-    const data = await Response.json();
-    console.log(data.payload);
-    dispatch({ type: ACTIONS.UPDATE_USER_TODOS, payload: data.payload });
-    dispatch({ type: ACTIONS.TOGGLE_NEW_TODO_ADDED });
-    dispatch({ type: ACTIONS.NEW_USER_TODO, payload: "" });
-  }
   useEffect(() => {
+    async function postNewToDo() {
+      const Response = await fetch(`${URL}/tasks`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          userId: mainState.userId,
+          taskText: mainState.newToDo,
+          completion: 0,
+        }),
+      });
+      const data = await Response.json();
+      console.log(data.payload);
+      dispatch({ type: ACTIONS.UPDATE_USER_TODOS, payload: data.payload });
+      dispatch({ type: ACTIONS.TOGGLE_NEW_TODO_ADDED });
+      dispatch({ type: ACTIONS.NEW_USER_TODO, payload: "" });
+    }
     if (mainState.newToDoAdded) {
       postNewToDo();
     }
-  }, [mainState.newToDoAdded]);
+  }, [mainState.newToDoAdded, mainState.newToDo, mainState.userId]);
 
-  async function deleteToDoFromDB() {
-    const Response = await fetch(`${URL}/tasks/${mainState.deletedToDoId}`, {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-    });
-    const data = await Response.json();
-    console.log(data);
-    dispatch({ type: ACTIONS.DELETE_TODO, payload: data.payload[0].id });
-    dispatch({ type: ACTIONS.TOGGLE_TODO_DELETED });
-  }
   useEffect(() => {
+    async function deleteToDoFromDB() {
+      const Response = await fetch(`${URL}/tasks/${mainState.deletedToDoId}`, {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+      });
+      const data = await Response.json();
+      console.log(data);
+      dispatch({ type: ACTIONS.DELETE_TODO, payload: data.payload[0].id });
+      dispatch({ type: ACTIONS.TOGGLE_TODO_DELETED });
+    }
     if (mainState.toDoDeleted) {
       deleteToDoFromDB();
     }
-  }, [mainState.toDoDeleted]);
+  }, [mainState.toDoDeleted, mainState.deletedToDoId]);
 
   function handleSignUp(e) {
     const data = {
@@ -183,7 +183,7 @@ function App() {
     dispatch({ type: ACTIONS.SET_DELETED_TODO_ID, payload: taskId });
     dispatch({ type: ACTIONS.TOGGLE_TODO_DELETED });
   }
-  
+
   return (
     <div className="App">
       <Header />
@@ -197,7 +197,6 @@ function App() {
           path={`/user/${mainState.userId}`}
           element={
             <ToDoDisplay
-             
               mainState={mainState}
               handleDelete={handleDeleteToDo}
               submitHandler={handleAddToDo}
