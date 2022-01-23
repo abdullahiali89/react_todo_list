@@ -12,7 +12,7 @@ import {
 } from "./mainStateReducer.js";
 
 function App() {
-  const URL = "http://localhost:5000";
+  const URL = "https://abdullahistodolist.herokuapp.com";
   const navigate = useNavigate();
   const [mainState, dispatch] = useReducer(mainStateReducer, initialMainState);
 
