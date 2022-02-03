@@ -2,7 +2,9 @@ import styles from "./Login.module.css";
 function Login({ submitHandler }) {
   return (
     <div className={styles.login}>
-      <h1>Login</h1>
+      <header className={styles.formHeader}>
+        <h1>Login</h1>
+      </header>
       <form
         className={styles.form}
         onSubmit={(e) => {

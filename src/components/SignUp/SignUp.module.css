@@ -1,4 +1,4 @@
-.login {
+.SignUp {
   margin-top: 0.5rem;
   background-color: white;
   border-radius: 20px;
@@ -34,7 +34,11 @@
   margin: 1px 5px;
   height: 1.75rem;
 }
-.loginbtn {
+.confirmPasswordInput {
+  margin: 1px 5px;
+  height: 1.75rem;
+}
+.signUpbtn {
   border: 1px solid grey;
   border-bottom-left-radius: 20px;
   margin: 1px 5px;
