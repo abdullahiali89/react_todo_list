@@ -1,0 +1,28 @@
+.login {
+  margin-top: 0.5rem;
+  border: 1px solid red;
+  border-radius: 20px;
+  display: flex;
+  flex-direction: column;
+  justify-self: center;
+  width: 35vw;
+  height: 55vh;
+  box-shadow: 10px 5px grey;
+}
+.form {
+  display: flex;
+  flex-direction: column;
+  padding: 3px;
+}
+.usernameInput {
+  margin: 1px;
+  height: 1.75rem;
+}
+.passwordInput {
+  margin: 1px;
+  height: 1.75rem;
+}
+.loginbtn {
+  margin: 1px;
+  height: 1.75rem;
+}

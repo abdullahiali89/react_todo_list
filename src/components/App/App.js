@@ -1,6 +1,6 @@
 import { Routes, Route, useNavigate } from "react-router-dom";
 import { useReducer, useEffect } from "react";
-import "./App.css";
+import styles from "./App.module.css";
 import Header from "../Header";
 import Login from "../Login";
 import SignUp from "../SignUp";
@@ -12,7 +12,9 @@ import {
 } from "./mainStateReducer.js";
 
 function App() {
-  const URL = process.env.REACT_APP_BACKEND_URL || "https://abdullahistodolist.herokuapp.com";
+  const URL =
+    process.env.REACT_APP_BACKEND_URL ||
+    "https://abdullahistodolist.herokuapp.com";
   const navigate = useNavigate();
   const [mainState, dispatch] = useReducer(mainStateReducer, initialMainState);
 
@@ -185,7 +187,7 @@ function App() {
   }
 
   return (
-    <div className="App">
+    <div className={styles.App}>
       <Header />
       <Routes>
         <Route
