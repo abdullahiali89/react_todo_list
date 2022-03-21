@@ -1,0 +1,12 @@
+.container {
+  width: 50vw;
+  min-height: 40vh;
+  padding: 1rem;
+  background-color: white;
+  box-shadow: 0 35px 65px 0 rgba(86, 184, 149, 0.42),
+    inset 0 -10px 15px 0 rgba(113, 235, 191, 0.8);
+  border-radius: 25px;
+}
+.ToDos {
+  width: 100%;
+}

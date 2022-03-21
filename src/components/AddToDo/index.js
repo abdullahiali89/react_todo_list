@@ -1,3 +1,4 @@
+import styles from "./AddToDo.module.css";
 function AddToDo({ handleOnChange, submitHandler, mainState }) {
   return (
     <div>
@@ -7,8 +8,9 @@ function AddToDo({ handleOnChange, submitHandler, mainState }) {
           submitHandler(e);
         }}
       >
-        <label htmlFor="task">Enter ToDo:</label>
+        
         <input
+          placeholder="Enter Todo"
           required
           type="text"
           name="task"

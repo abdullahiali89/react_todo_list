@@ -1,40 +1,13 @@
-.homeHeader {
-  display: flex;
-  flex-direction: column;
-  height: 100vh;
-  justify-content: center;
-}
 .header {
   display: flex;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
   width: 100vw;
 }
+.logOut {
+  float: right;
+}
 .title {
-}
-.loginBtn {
-  font-size: 1.5rem;
-  border: 1px solid grey;
-  border-top-left-radius: 20px;
-  padding: 3px;
-}
-.loginBtn:hover {
-  background-color: red;
-}
-.hideLoginBtn {
-  display: none;
-}
-.signUpBtn {
-  font-size: 1.5rem;
-  border: 1px solid grey;
-  border-bottom-right-radius: 20px;
-  padding: 3px;
-}
-.signUpBtn:hover {
-  background-color: red;
-}
-
-.hideSignUpBtn {
-  transform: scale(2);
-  display: none;
+  margin-left: auto;
+  margin-right: auto;
 }

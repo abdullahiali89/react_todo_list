@@ -13,10 +13,16 @@ export const ACTIONS = {
   TOGGLE_TODO_DELETED: "TOGGLE_TODO_DELETED",
   SET_DELETED_TODO_ID: "SET_DELETED_TODO_ID",
   DELETE_TODO: "DELETE_TODO",
+  UPDATE_NAME: "UPDATE_NAME",
+  UPDATE_TODO_CHECKED: "UPDATE_TODO_CHECKED",
+  UPDATED_TODO: "UPDATED_TODO",
 };
 
 export const initialMainState = {
-  userId: "",
+  name: "",
+  userId: window.localStorage.getItem("userId")
+    ? window.localStorage.getItem("userId")
+    : "",
   userIdUpdated: false,
   userSignUpDetails: {},
   userLoginDetails: {},
@@ -27,6 +33,7 @@ export const initialMainState = {
   newToDoAdded: false,
   toDoDeleted: false,
   deletedToDoId: "",
+  updatedToDoId: "",
 };
 
 export function mainStateReducer(state, action) {
@@ -41,7 +48,7 @@ export function mainStateReducer(state, action) {
         signUpDetailsAvailable: !state.signUpDetailsAvailable,
       };
     case ACTIONS.UPDATE_USER_ID:
-      return { ...state, userId: action.payload.user_id };
+      return { ...state, userId: action.payload };
     case ACTIONS.TOGGLE_LOGIN:
       return { ...state, login: !state.login };
     case ACTIONS.ADD_USER_ID:
@@ -51,7 +58,7 @@ export function mainStateReducer(state, action) {
     case ACTIONS.GET_USER_TODOS:
       return { ...state, usersToDos: [...action.payload] };
     case ACTIONS.UPDATE_USER_TODOS:
-      return { ...state, usersToDos: [...state.usersToDos, ...action.payload] };
+      return { ...state, usersToDos: [...action.payload] };
     case ACTIONS.NEW_USER_TODO:
       return { ...state, newToDo: action.payload };
     case ACTIONS.TOGGLE_NEW_TODO_ADDED:
@@ -59,7 +66,10 @@ export function mainStateReducer(state, action) {
     case ACTIONS.TOGGLE_TODO_DELETED:
       return { ...state, toDoDeleted: !state.toDoDeleted };
     case ACTIONS.SET_DELETED_TODO_ID:
+      console.log(action.payload);
       return { ...state, deletedToDoId: action.payload };
+    case ACTIONS.UPDATE_NAME:
+      return { ...state, name: action.payload };
     case ACTIONS.DELETE_TODO:
       const index = state.usersToDos.indexOf(
         state.usersToDos.find((todo) => todo.id === action.payload)
@@ -71,7 +81,42 @@ export function mainStateReducer(state, action) {
           ...state.usersToDos.slice(index + 1),
         ],
       };
-
+    case ACTIONS.UPDATE_TODO_CHECKED:
+      console.log(state.usersToDos[action.payload]);
+      if (state.usersToDos[action.payload].complete === "0") {
+        console.log("here");
+        return {
+          ...state,
+          usersToDos: [
+            ...state.usersToDos.slice(0, action.payload),
+            {
+              ...state.usersToDos[action.payload],
+              complete: "1",
+            },
+            ...state.usersToDos.slice(
+              action.payload + 1,
+              state.usersToDos.length
+            ),
+          ],
+        };
+      } else {
+        return {
+          ...state,
+          usersToDos: [
+            ...state.usersToDos.slice(0, action.payload),
+            {
+              ...state.usersToDos[action.payload],
+              complete: "0",
+            },
+            ...state.usersToDos.slice(
+              action.payload + 1,
+              state.usersToDos.length
+            ),
+          ],
+        };
+      }
+    case ACTIONS.UPDATED_TODO:
+      return { ...state, updatedToDoId: action.payload };
     default:
       return state;
   }

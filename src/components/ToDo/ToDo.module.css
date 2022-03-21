@@ -1,0 +1,8 @@
+.ToDo {
+  width: 100%;
+  display: flex;
+  justify-content: flex-start;
+}
+.DeleteBtn {
+  margin-left: auto;
+}

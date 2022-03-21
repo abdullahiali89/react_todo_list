@@ -1,42 +1,36 @@
-import { Link } from "react-router-dom";
-import { useState } from "react";
 import styles from "./Header.module.css";
+import { ACTIONS } from "../App/mainStateReducer";
+import { useAuth } from "../../context/AuthContext.js";
+import { useNavigate } from "react-router-dom";
 
-function Header() {
-  const [page, setPage] = useState("home");
-  function onLoginClick() {
-    setPage("login");
-    // localStorage.setItem("page", "login");
+function Header({ name, dispatch }) {
+  const navigate = useNavigate();
+  const { logOut } = useAuth();
+
+  async function handleLogOut() {
+    await logOut();
+    window.localStorage.removeItem("userId");
+    navigate("/login");
+    dispatch({
+      type: ACTIONS.UPDATE_NAME,
+      payload: "",
+    });
+    dispatch({ type: ACTIONS.UPDATE_USER_TODOS, payload: [] });
   }
-  function onSignUpClick() {
-    setPage("signUp");
-    // localStorage.setItem("page", "SighnUp");
-  }
+
   return (
-    <header className={page === "home" ? styles.homeHeader : styles.header}>
-      <h1 className={styles.title}>My React ToDo List</h1>
-      <div>
-        {}
-        <Link to="/login">
-          <button
-            onClick={onLoginClick}
-            className={page === "login" ? styles.hideLoginBtn : styles.loginBtn}
-          >
-            Login
-          </button>
-        </Link>
-        <Link to="/signup">
-          <button
-            onClick={onSignUpClick}
-            className={
-              page === "signUp" ? styles.hideSignUpBtn : styles.signUpBtn
-            }
-          >
-            signup
-          </button>
-        </Link>
-      </div>
-    </header>
+    <nav className={styles.header}>
+      {name ? (
+        <h1 className={styles.title}>{name}'s ToDo List</h1>
+      ) : (
+        <h1 className={styles.title}>My React ToDo List</h1>
+      )}
+      {window.localStorage.getItem("userId") && (
+        <button className={styles.logOut} onClick={handleLogOut}>
+          logOut
+        </button>
+      )}
+    </nav>
   );
 }
 
