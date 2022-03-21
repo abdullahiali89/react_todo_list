@@ -11,6 +11,7 @@ import {
   initialMainState,
 } from "./mainStateReducer.js";
 import { AuthProvider } from "../../context/AuthContext";
+import Home from "../home";
 
 function App() {
   const URL =
@@ -118,6 +119,7 @@ function App() {
       <div className={styles.App}>
         <Header name={mainState.name} dispatch={dispatch} />
         <Routes>
+          <Route path="/" element={<Home />}></Route>
           <Route
             path="/signup"
             element={
