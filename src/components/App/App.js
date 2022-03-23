@@ -31,7 +31,6 @@ function App() {
         }),
       });
       const data = await Response.json();
-      console.log(data.payload);
       let todos = data.payload.sort((a, b) => {
         return a.id - b.id;
       });
@@ -51,7 +50,7 @@ function App() {
         headers: { "Content-Type": "application/json" },
       });
       const data = await Response.json();
-      console.log(data);
+
       dispatch({ type: ACTIONS.DELETE_TODO, payload: data.payload[0].id });
       dispatch({ type: ACTIONS.TOGGLE_TODO_DELETED });
     }
@@ -63,22 +62,20 @@ function App() {
   useEffect(() => {
     async function patchToDo() {
       const num = mainState.usersToDos.find((toDo) => {
-        console.log(toDo, toDo.id, Number(mainState.updatedToDoId));
         return toDo.id === Number(mainState.updatedToDoId);
       });
-      console.log(num);
+
       let status = "0";
       if (num.complete === "0") {
         status = "1";
       }
-      console.log(status, num);
+
       const response = await fetch(`${URL}/tasks/${mainState.updatedToDoId}`, {
         method: "PATCH",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({ status, userId: mainState.userId }),
       });
       const data = await response.json();
-      console.log(data);
       let todos = data.payload.sort((a, b) => {
         return a.id - b.id;
       });
@@ -98,19 +95,20 @@ function App() {
   function handleOnChange(e) {
     const toDo = e.target.value;
     dispatch({ type: ACTIONS.NEW_USER_TODO, payload: toDo });
-    console.log(mainState.usersToDos);
   }
   function handleDeleteToDo(e) {
     const taskId = e.target.id;
-    console.log("delete pressed");
     dispatch({ type: ACTIONS.SET_DELETED_TODO_ID, payload: taskId });
     dispatch({ type: ACTIONS.TOGGLE_TODO_DELETED });
   }
   function handleCheck(e, index) {
     if (e.target.checked) {
+      console.log("checked");
       dispatch({ type: ACTIONS.UPDATED_TODO, payload: e.target.id });
       // dispatch({ type: ACTIONS.UPDATE_TODO_CHECKED, payload: index });
     } else {
+      console.log("not checked");
+      dispatch({ type: ACTIONS.UPDATED_TODO, payload: e.target.id });
       // dispatch({ type: ACTIONS.UPDATE_TODO_CHECKED, payload: index });
     }
   }

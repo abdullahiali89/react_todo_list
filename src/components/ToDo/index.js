@@ -1,7 +1,6 @@
 import styles from "./ToDo.module.css";
 
 function ToDo({ toDo, handleDelete, handleCheck, index, checked }) {
-  console.log(toDo.complete);
   let check = true;
   return (
     <div>
@@ -11,8 +10,8 @@ function ToDo({ toDo, handleDelete, handleCheck, index, checked }) {
           type="checkbox"
           name="compete"
           id={toDo.id}
-          onClick={(e) => {
-            checked = !check;
+          onChange={(e) => {
+            
             handleCheck(e, index);
           }}
         />

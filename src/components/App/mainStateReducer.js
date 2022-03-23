@@ -82,39 +82,42 @@ export function mainStateReducer(state, action) {
         ],
       };
     case ACTIONS.UPDATE_TODO_CHECKED:
-      console.log(state.usersToDos[action.payload]);
-      if (state.usersToDos[action.payload].complete === "0") {
-        console.log("here");
-        return {
-          ...state,
-          usersToDos: [
-            ...state.usersToDos.slice(0, action.payload),
-            {
-              ...state.usersToDos[action.payload],
-              complete: "1",
-            },
-            ...state.usersToDos.slice(
-              action.payload + 1,
-              state.usersToDos.length
-            ),
-          ],
-        };
-      } else {
-        return {
-          ...state,
-          usersToDos: [
-            ...state.usersToDos.slice(0, action.payload),
-            {
-              ...state.usersToDos[action.payload],
-              complete: "0",
-            },
-            ...state.usersToDos.slice(
-              action.payload + 1,
-              state.usersToDos.length
-            ),
-          ],
-        };
+      {
+        // console.log(state.usersToDos[action.payload]);
+        // if (state.usersToDos[action.payload].complete === "0") {
+        //   console.log("here");
+        //   return {
+        //     ...state,
+        //     usersToDos: [
+        //       ...state.usersToDos.slice(0, action.payload),
+        //       {
+        //         ...state.usersToDos[action.payload],
+        //         complete: "1",
+        //       },
+        //       ...state.usersToDos.slice(
+        //         action.payload + 1,
+        //         state.usersToDos.length
+        //       ),
+        //     ],
+        //   };
+        // } else {
+        //   return {
+        //     ...state,
+        //     usersToDos: [
+        //       ...state.usersToDos.slice(0, action.payload),
+        //       {
+        //         ...state.usersToDos[action.payload],
+        //         complete: "0",
+        //       },
+        //       ...state.usersToDos.slice(
+        //         action.payload + 1,
+        //         state.usersToDos.length
+        //       ),
+        //     ],
+        //   };
+        // }
       }
+      break;
     case ACTIONS.UPDATED_TODO:
       return { ...state, updatedToDoId: action.payload };
     default:

@@ -17,7 +17,8 @@ function ToDoDisplay({
   submitHandler,
   handleCheck,
 }) {
-  console.log("rerendered");
+  console.table(mainState.usersToDos);
+
   useEffect(() => {
     async function getTodos() {
       const response = await fetch(`${URL}/tasks/${mainState.userId}`);
